@@ -1,5 +1,6 @@
-#+title: Hello World Example
+#+title: capnproto-rust's Hello World Example
 
+This is the example from [[https://github.com/capnproto/capnproto-rust/tree/master/capnp-rpc/examples/hello-world][capnproto/capnproto-rust:capnp-rpc/examples/hello-world]]
 
 To run, in two separate terminals, do:
 
