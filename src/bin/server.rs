@@ -27,11 +27,10 @@ use crate::hello_world_capnp::hello_world;
 use capnp::capability::Promise;
 use capnp_rpc::{pry, rpc_twoparty_capnp, twoparty, RpcSystem};
 
-use futures::AsyncReadExt;
 use clap::Parser;
+use futures::AsyncReadExt;
 
 struct HelloWorldImpl;
-
 impl hello_world::Server for HelloWorldImpl {
     fn say_hello(
         &mut self,
@@ -55,7 +54,6 @@ struct Args {
     #[clap(short, long, default_value = "localhost:4030")]
     address: String,
 }
-
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
