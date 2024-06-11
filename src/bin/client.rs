@@ -25,7 +25,6 @@ pub mod hello_world_capnp {
 
 use crate::hello_world_capnp::hello_world;
 use capnp_rpc::{rpc_twoparty_capnp, twoparty, RpcSystem};
-use std::net::SocketAddr;
 
 use clap::Parser;
 use futures::AsyncReadExt;
@@ -34,8 +33,8 @@ use futures::AsyncReadExt;
 #[command(version, about, long_about = None)]
 struct Args {
     // Server address
-    #[clap(short, long, default_value = "127.0.0.1:4030")]
-    address: SocketAddr,
+    #[clap(short, long, default_value = "localhost:4030")]
+    address: String,
 
     #[clap(short, long)]
     name: String,

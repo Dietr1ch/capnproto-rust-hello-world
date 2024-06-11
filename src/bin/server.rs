@@ -28,7 +28,6 @@ use capnp::capability::Promise;
 use capnp_rpc::{pry, rpc_twoparty_capnp, twoparty, RpcSystem};
 
 use futures::AsyncReadExt;
-use std::net::SocketAddr;
 use clap::Parser;
 
 struct HelloWorldImpl;
@@ -53,8 +52,8 @@ impl hello_world::Server for HelloWorldImpl {
 #[command(version, about, long_about = None)]
 struct Args {
     // Server address
-    #[clap(short, long, default_value = "127.0.0.1:4030")]
-    address: SocketAddr,
+    #[clap(short, long, default_value = "localhost:4030")]
+    address: String,
 }
 
 

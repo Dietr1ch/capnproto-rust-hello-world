@@ -7,7 +7,7 @@ To run, in two separate terminals, do:
 cargo run \
   --bin 'server' \
   -- \
-  --address '127.0.0.1:4030'
+  --address 'localhost:4030'
 #+end_src
 
 #+RESULTS:
@@ -20,7 +20,7 @@ and
 cargo run \
   --bin 'client' \
   -- \
-  --address '127.0.0.1:4030' \
+  --address 'localhost:4030' \
   --name "World"
 #+end_src
 
