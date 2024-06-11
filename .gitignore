@@ -1,4 +1,6 @@
-.devenv
+.*
+!.gitignore
+!.envrc
 
 # Rust
 /target

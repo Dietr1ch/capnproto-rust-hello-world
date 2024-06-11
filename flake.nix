@@ -52,6 +52,14 @@
                     };
                   };
 
+                  pre-commit = {
+                    hooks = {
+                      rustfmt = {
+                        enable = true;
+                      };
+                    };
+                  };
+
                   enterShell = ''
                     cargo --version
                     rustc --version
