@@ -28,7 +28,8 @@ use capnp::capability::Promise;
 use capnp_rpc::{pry, rpc_twoparty_capnp, twoparty, RpcSystem};
 
 use futures::AsyncReadExt;
-use std::net::ToSocketAddrs;
+use std::net::SocketAddr;
+use clap::Parser;
 
 struct HelloWorldImpl;
 
@@ -48,23 +49,23 @@ impl hello_world::Server for HelloWorldImpl {
     }
 }
 
+#[derive(Parser, Debug)]
+#[command(version, about, long_about = None)]
+struct Args {
+    // Server address
+    #[clap(short, long, default_value = "127.0.0.1:4030")]
+    address: SocketAddr,
+}
+
+
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let args: Vec<String> = ::std::env::args().collect();
-    if args.len() != 2 {
-        println!("usage: {} server ADDRESS[:PORT]", args[0]);
-        return Ok(());
-    }
+    let args = Args::parse();
 
-    let addr = args[1]
-        .to_socket_addrs()?
-        .next()
-        .expect("could not parse address");
-
-    println!("Starting up server at {}", &addr);
+    println!("Starting up server at {}", &args.address);
     tokio::task::LocalSet::new()
         .run_until(async move {
-            let listener = tokio::net::TcpListener::bind(&addr).await?;
+            let listener = tokio::net::TcpListener::bind(&args.address).await?;
             let hello_world_client: hello_world::Client = capnp_rpc::new_client(HelloWorldImpl);
 
             loop {

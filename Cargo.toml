@@ -17,6 +17,7 @@ capnpc = { version = "*"}
 [dependencies]
 capnp = { version = "*" }
 capnp-rpc = { version = "*" }
+clap = { version = "4.5.7", features = ["derive"] }
 futures = "0.3.0"
 tokio = { version = "1.0.0", features = ["net", "rt", "macros"]}
 tokio-util = { version = "0.7.4", features = ["compat"] }

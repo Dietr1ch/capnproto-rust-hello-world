@@ -4,7 +4,10 @@
 To run, in two separate terminals, do:
 
 #+begin_src fish :results raw
-cargo run --bin 'server' -- 127.0.0.1:4030
+cargo run \
+  --bin 'server' \
+  -- \
+  --address '127.0.0.1:4030'
 #+end_src
 
 #+RESULTS:
@@ -14,7 +17,11 @@ response: Hello, World!
 and
 
 #+begin_src fish :results raw
-cargo run --bin 'client' -- 127.0.0.1:4030 "World"
+cargo run \
+  --bin 'client' \
+  -- \
+  --address '127.0.0.1:4030' \
+  --name "World"
 #+end_src
 
 #+RESULTS:

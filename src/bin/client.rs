@@ -25,28 +25,29 @@ pub mod hello_world_capnp {
 
 use crate::hello_world_capnp::hello_world;
 use capnp_rpc::{rpc_twoparty_capnp, twoparty, RpcSystem};
-use std::net::ToSocketAddrs;
+use std::net::SocketAddr;
 
+use clap::Parser;
 use futures::AsyncReadExt;
+
+#[derive(Parser, Debug)]
+#[command(version, about, long_about = None)]
+struct Args {
+    // Server address
+    #[clap(short, long, default_value = "127.0.0.1:4030")]
+    address: SocketAddr,
+
+    #[clap(short, long)]
+    name: String,
+}
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let args: Vec<String> = ::std::env::args().collect();
-    if args.len() != 3 {
-        println!("usage: {} client HOST:PORT MESSAGE", args[0]);
-        return Ok(());
-    }
-
-    let addr = args[1]
-        .to_socket_addrs()?
-        .next()
-        .expect("could not parse address");
-
-    let msg = args[2].to_string();
+    let args = Args::parse();
 
     tokio::task::LocalSet::new()
         .run_until(async move {
-            let stream = tokio::net::TcpStream::connect(&addr).await?;
+            let stream = tokio::net::TcpStream::connect(&args.address).await?;
             stream.set_nodelay(true)?;
             let (reader, writer) =
                 tokio_util::compat::TokioAsyncReadCompatExt::compat(stream).split();
@@ -63,7 +64,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             tokio::task::spawn_local(rpc_system);
 
             let mut request = hello_world.say_hello_request();
-            request.get().init_request().set_name(&msg[..]);
+            request.get().init_request().set_name(&args.name);
 
             let reply = request.send().promise.await?;
 
